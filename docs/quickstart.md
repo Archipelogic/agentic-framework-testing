@@ -53,59 +53,55 @@ Testing crewai...
 
 ## Running Your First Real Benchmark
 
-### Option 1: Command Line Interface
+### Option 1: Using the Unified Runner Script
 
 ```bash
-# Run benchmark with specific frameworks and use cases
-python3 -m src.cli benchmark \
-  --frameworks langgraph crewai \
-  --use-cases movie_recommendation github_triage \
-  --test-cases 5 \
-  --output-dir results
+# Quick test with 3 frameworks (mock mode)
+./run.sh test --mock --quick
+
+# Full test with all frameworks
+./run.sh test --mock
+
+# Test with specific sample size
+./run.sh test --mock --samples 50
 ```
 
-### Option 2: Python Script
+### Option 2: Direct Python Execution
 
-Create `my_benchmark.py`:
+```bash
+# Run with mock adapters
+python3 run_evaluation.py --mock
+
+# Run with real APIs
+python3 run_evaluation.py --live
+
+# Quick test (3 frameworks, 2 use cases)
+python3 run_evaluation.py --mock --quick
+
+# Custom sample size
+python3 run_evaluation.py --mock --samples 100
+```
+
+### Option 3: Custom Python Script
+
+Create `custom_test.py`:
 
 ```python
-from src.benchmark.runner import BenchmarkRunner
-from src.core.types import FrameworkType, UseCaseType
-from src.reporting.unified_reporter import UnifiedReporter
+from run_evaluation import UnifiedBenchmarkRunner
 
 # Initialize runner
-runner = BenchmarkRunner()
+runner = UnifiedBenchmarkRunner(mode='mock')
 
-# Run benchmark
-results = runner.run_benchmark(
-    frameworks=[
-        FrameworkType.LANGGRAPH,
-        FrameworkType.CREWAI
-    ],
-    use_cases=[
-        UseCaseType.MOVIE_RECOMMENDATION,
-        UseCaseType.GITHUB_TRIAGE
-    ],
-    test_cases_per_use_case=5,
-    parallel=True
-)
+# Run evaluation
+results = runner.run()
 
-# Generate report
-reporter = UnifiedReporter()
-report_path = reporter.generate_comprehensive_report(results)
-print(f"Report generated: {report_path}")
+# Results are automatically saved and report generated
+print(f"Results saved to: benchmark_results/")
 ```
 
 Run it:
 ```bash
-python3 my_benchmark.py
-```
-
-### Option 3: Interactive Mode
-
-```bash
-# Start interactive benchmark session
-python3 -m src.cli interactive
+python3 custom_test.py
 
 # Follow the prompts:
 # 1. Select frameworks (space to select, enter to confirm)
@@ -273,7 +269,7 @@ python3 -c "import langgraph; print(langgraph.__version__)"
 export MAX_PARALLEL_WORKERS=2
 
 # Or disable parallel execution
-python3 demo.py --no-parallel
+python3 run_evaluation.py --mock --no-parallel
 ```
 
 ## What's Next?

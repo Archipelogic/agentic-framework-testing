@@ -77,17 +77,24 @@ class FrameworkResult:
     metadata: Dict[str, Any] = field(default_factory=dict)
 ```
 
-## BenchmarkRunner
+## UnifiedBenchmarkRunner
 
 Main class for running benchmarks.
 
 ### Constructor
 
 ```python
-from src.benchmark.runner import BenchmarkRunner
+from run_evaluation import UnifiedBenchmarkRunner
 from src.core.config import Config
 
-runner = BenchmarkRunner(config: Optional[Config] = None)
+runner = UnifiedBenchmarkRunner(
+    mode: str = 'mock',  # 'mock' or 'live'
+    config: Optional[Config] = None,
+    quick: bool = False,
+    samples: Optional[int] = None,
+    parallel: bool = False,
+    verbose: bool = False
+)
 ```
 
 **Parameters:**
@@ -125,13 +132,16 @@ results = runner.run_benchmark(
 
 **Example:**
 ```python
-from src.benchmark.runner import BenchmarkRunner
-from src.core.types import FrameworkType, UseCaseType
+from run_evaluation import UnifiedBenchmarkRunner
 
-runner = BenchmarkRunner()
-results = runner.run_benchmark(
-    frameworks=[FrameworkType.LANGGRAPH, FrameworkType.CREWAI],
-    use_cases=[UseCaseType.MOVIE_RECOMMENDATION],
+runner = UnifiedBenchmarkRunner(mode='mock')
+results = runner.run()  # Runs all frameworks and use cases
+
+# Or with options
+runner = UnifiedBenchmarkRunner(
+    mode='live',
+    quick=True,  # Only test 3 frameworks
+    samples=50,  # 50 samples per use case
     test_cases_per_use_case=10,
     parallel=True
 )
@@ -585,40 +595,25 @@ except ConfigurationError as e:
 ### Complete Benchmark Example
 
 ```python
-from src.benchmark.runner import BenchmarkRunner
-from src.core.types import FrameworkType, UseCaseType
+from run_evaluation import UnifiedBenchmarkRunner
 from src.core.config import Config
-from src.reporting.unified_reporter import UnifiedReporter
 
 # Configure
 config = Config()
-config.default_model = "gpt-4o-mini"
-config.max_tokens = 2000
+config.default_model = 'gpt-4'
+config.temperature = 0.7
+config.max_tokens = 2048
 
 # Run benchmark
-runner = BenchmarkRunner(config)
-results = runner.run_benchmark(
-    frameworks=[
-        FrameworkType.LANGGRAPH,
-        FrameworkType.CREWAI,
-        FrameworkType.AUTOGEN
-    ],
-    use_cases=[
-        UseCaseType.MOVIE_RECOMMENDATION,
-        UseCaseType.GITHUB_TRIAGE
-    ],
-    test_cases_per_use_case=10,
-    parallel=True
+runner = UnifiedBenchmarkRunner(
+    mode='live',
+    config=config,
+    samples=100
 )
+results = runner.run()
 
-# Generate report
-reporter = UnifiedReporter()
-report_path = reporter.generate_comprehensive_report(results)
-
-# Print summary
-print(f"Benchmark completed: {results['benchmark_id']}")
-print(f"Overall winner: {results['summary']['overall_winner']}")
-print(f"Report available at: {report_path}")
+# Results are automatically saved and report generated
+print("Evaluation complete!")
 ```
 
 ### Custom Use Case Example

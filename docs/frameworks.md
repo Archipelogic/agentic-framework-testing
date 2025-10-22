@@ -518,18 +518,15 @@ pytest tests/test_new_framework.py --cov=src.adapters.new_framework_adapter
 
 ```python
 # benchmark_new_framework.py
-from src.benchmark.runner import BenchmarkRunner
-from src.core.types import FrameworkType, UseCaseType
-
-runner = BenchmarkRunner()
+from run_evaluation import UnifiedBenchmarkRunner
 
 # Run comprehensive benchmark
-results = runner.run_benchmark(
-    frameworks=[FrameworkType.NEW_FRAMEWORK],
-    use_cases=list(UseCaseType),
-    test_cases_per_use_case=10,
+runner = UnifiedBenchmarkRunner(
+    mode='live',
+    samples=100,  # Test with 100 samples per use case
     parallel=True
 )
+results = runner.run()
 
 # Print results
 print(f"Overall Success Rate: {results['summary']['overall']['success_rate']:.2%}")

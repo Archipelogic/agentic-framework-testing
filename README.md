@@ -49,7 +49,7 @@ agentic-framework-testing/
 
 ```bash
 # Clone and enter directory
-git clone https://github.com/your-org/agentic-framework-testing
+git clone https://github.com/Archipelogic/agentic-framework-testing.git
 cd agentic-framework-testing
 
 # One-time setup

@@ -124,10 +124,10 @@ papers = load_dataset("ccdv/arxiv-summarization", split="train[:50]")
 python scripts/load_huggingface_data.py
 
 # Then run tests with the loaded data
-python run_live.py --data-source huggingface
+python3 run_evaluation.py --live
 
-# Or in demo mode
-python demo.py --test-data data/*_hf.json
+# Or in mock mode
+python3 run_evaluation.py --mock
 ```
 
 ## Benefits of Using Hugging Face

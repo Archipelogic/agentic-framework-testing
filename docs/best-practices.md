@@ -489,22 +489,18 @@ class TestEvaluator:
 ```python
 # tests/integration/test_end_to_end.py
 import pytest
-from src.benchmark.runner import BenchmarkRunner
+from run_evaluation import UnifiedBenchmarkRunner
 from src.core.types import FrameworkType, UseCaseType
 
 @pytest.mark.integration
-class TestEndToEnd:
-    """End-to-end integration tests."""
+class TestBenchmarkIntegration:
+    """Integration tests for benchmark system."""
     
     def test_full_benchmark_cycle(self):
         """Test complete benchmark cycle."""
-        runner = BenchmarkRunner()
+        runner = UnifiedBenchmarkRunner(mode='mock', quick=True)
         
-        results = runner.run_benchmark(
-            frameworks=[FrameworkType.LANGGRAPH],
-            use_cases=[UseCaseType.MOVIE_RECOMMENDATION],
-            test_cases_per_use_case=1
-        )
+        results = runner.run()
         
         assert results is not None
         assert 'benchmark_id' in results
@@ -514,14 +510,9 @@ class TestEndToEnd:
     @pytest.mark.slow
     def test_parallel_execution(self):
         """Test parallel execution."""
-        runner = BenchmarkRunner()
+        runner = UnifiedBenchmarkRunner(mode='mock', parallel=True)
         
-        results = runner.run_benchmark(
-            frameworks=[FrameworkType.LANGGRAPH, FrameworkType.CREWAI],
-            use_cases=[UseCaseType.MOVIE_RECOMMENDATION],
-            test_cases_per_use_case=2,
-            parallel=True
-        )
+        results = runner.run()
         
         assert len(results['results']) == 2
 ```
@@ -539,12 +530,8 @@ def test_benchmark_latency():
     start = time.time()
     
     # Run minimal benchmark
-    runner = BenchmarkRunner()
-    results = runner.run_benchmark(
-        frameworks=[FrameworkType.LANGGRAPH],
-        use_cases=[UseCaseType.MOVIE_RECOMMENDATION],
-        test_cases_per_use_case=1
-    )
+    runner = UnifiedBenchmarkRunner(mode='mock', quick=True)
+    results = runner.run()
     
     elapsed = time.time() - start
     

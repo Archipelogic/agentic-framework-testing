@@ -26,45 +26,46 @@
 ### 1. Clone the Repository
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/Archipelogic/agentic-framework-testing.git
 cd agentic-framework-testing
 ```
 
-### 2. Create Virtual Environment
+### 2. Automated Setup (Recommended)
+
+The easiest way to set up the project is using the unified runner script:
 
 ```bash
-# Using venv
+# This will create venv, install dependencies, and generate test data
+./run.sh setup
+```
+
+### 3. Manual Setup (Alternative)
+
+If you prefer manual setup:
+
+```bash
+# Create virtual environment
 python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 
-# Or using conda
-conda create -n agentic-testing python=3.10
-conda activate agentic-testing
-```
-
-### 3. Install Core Dependencies
-
-```bash
-# Install core requirements
+# Install dependencies
 pip install -r requirements.txt
 
 # For development
 pip install -e .
 ```
 
-### 4. Install Framework Dependencies
+### 4. Framework Support
 
-You can install all frameworks or only the ones you need:
+All 13 frameworks are supported through mock adapters for testing:
+- **Graph-Based**: LangGraph, Haystack
+- **Multi-Agent**: CrewAI, AutoGen, BeeAI  
+- **Type-Safe**: Pydantic AI, Atomic Agents
+- **Optimized**: DSPy, Agno, Smolagents
+- **Cloud-Native**: AWS Bedrock AgentCore, Strands
+- **RAG-Focused**: LlamaIndex
 
-```bash
-# Install all frameworks (warning: large download)
-pip install langgraph crewai autogen pydantic-ai haystack-ai llama-index dspy-ai
-
-# Or install specific frameworks only
-pip install langgraph  # For LangGraph
-pip install crewai     # For CrewAI
-# etc...
-```
+Note: Most frameworks use mock adapters. Real framework packages can be installed if available on PyPI.
 
 ## Environment Setup
 
@@ -79,20 +80,22 @@ cp .env.example .env
 Edit `.env` and add your API keys:
 
 ```bash
-# LLM Provider Keys (at least one required)
+# LLM Provider Keys (at least one required for live mode)
 OPENAI_API_KEY=sk-...
 ANTHROPIC_API_KEY=sk-ant-...
 GOOGLE_API_KEY=...
 AZURE_OPENAI_API_KEY=...
 
-# Optional: Framework-specific keys
-LANGCHAIN_API_KEY=...
-HUGGINGFACE_TOKEN=...
+# AWS Configuration (for Bedrock frameworks)
+AWS_ACCESS_KEY_ID=...
+AWS_SECRET_ACCESS_KEY=...
+AWS_REGION=us-east-1
+AWS_BEDROCK_ENABLED=true  # Auto-enabled when AWS credentials present
 
 # Configuration
-DEFAULT_MODEL=gpt-4o-mini  # or claude-3-haiku-20240307
+DEFAULT_MODEL=gpt-4  # or gpt-4o-mini, claude-3-haiku, etc.
 DEFAULT_TEMPERATURE=0.7
-MAX_TOKENS=2000
+DEFAULT_MAX_TOKENS=2048
 ```
 
 ## Demo Mode Setup
@@ -102,28 +105,26 @@ Demo mode uses mock adapters and doesn't require API keys.
 ### Quick Demo Run
 
 ```bash
-# Run demo with mock data
-python3 demo.py
+# Run mock evaluation (no API keys needed)
+./run.sh test --mock
 
-# Or use the demo script
-./run_demo.sh
+# Or run with Python directly
+python3 run_evaluation.py --mock
+
+# Quick test with 3 frameworks
+./run.sh test --mock --quick
+
+# Test with specific sample size
+./run.sh test --mock --samples 50
 ```
 
-### Demo Configuration
+### Demo Features
 
-Create `config/demo.yaml`:
-
-```yaml
-mode: demo
-frameworks:
-  - langgraph
-  - crewai
-use_cases:
-  - movie_recommendation
-  - github_triage
-test_cases_per_use_case: 3
-parallel: false
-```
+- **No API keys required** - Uses mock adapters
+- **Auto-generates test data** - Creates data/ directory if missing
+- **All 13 frameworks** - Tests complete framework set
+- **5 real-world use cases** - Comprehensive evaluation
+- **HTML reports** - Auto-opens in browser
 
 ## Production Mode Setup
 
@@ -134,29 +135,30 @@ parallel: false
 python3 -c "from src.core.config import Config; Config().validate_api_keys()"
 ```
 
-### 2. Configure Production Settings
+### 2. Run Live Evaluation
 
-Create `config/production.yaml`:
+```bash
+# Run with real API calls
+./run.sh test --live
 
-```yaml
-mode: production
-frameworks:
-  - langgraph
-  - crewai
-  - autogen
-  - pydantic_ai
-  - haystack
-use_cases:
-  - movie_recommendation
-  - github_triage
-  - recipe_generation
-  - research_summary
-  - email_automation
-test_cases_per_use_case: 10
-parallel: true
-max_workers: 4
-timeout: 300
-retry_attempts: 3
+# Or with specific options
+python3 run_evaluation.py --live --samples 100 --parallel
+```
+
+### 3. Production Options
+
+```bash
+# Run with all options
+./run.sh test --live \
+  --samples 200 \      # Use all test data
+  --parallel \         # Parallel execution
+  --no-open            # Don't auto-open report
+
+# View latest report
+./run.sh report
+
+# Clean old results
+./run.sh clean
 ```
 
 ### 3. Set Resource Limits
@@ -184,15 +186,16 @@ pytest tests/test_integration.py -v
 pytest tests/ --cov=src --cov-report=html
 ```
 
-### 2. Verify Framework Installation
+### 2. Verify Framework Support
 
 ```bash
 python3 -c "
-from src.adapters import create_adapter
+from src.adapters.framework_adapters import create_adapter
 from src.core.types import FrameworkType
+config = {'model': 'gpt-4', 'aws_region': 'us-east-1'}
 for fw in FrameworkType:
     try:
-        adapter = create_adapter(fw)
+        adapter = create_adapter(fw, config)
         print(f'✓ {fw.value}: {adapter.get_framework_version()}')
     except Exception as e:
         print(f'✗ {fw.value}: {e}')
@@ -204,14 +207,9 @@ for fw in FrameworkType:
 ```bash
 # Test a single framework
 python3 -c "
-from src.benchmark.runner import BenchmarkRunner
-from src.core.types import FrameworkType, UseCaseType
-runner = BenchmarkRunner()
-results = runner.run_benchmark(
-    frameworks=[FrameworkType.LANGGRAPH],
-    use_cases=[UseCaseType.MOVIE_RECOMMENDATION],
-    test_cases_per_use_case=1
-)
+from run_evaluation import UnifiedBenchmarkRunner
+runner = UnifiedBenchmarkRunner(mode='mock', quick=True)
+results = runner.run()
 print(f'Success: {bool(results)}')
 "
 ```

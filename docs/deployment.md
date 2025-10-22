@@ -255,21 +255,19 @@ Create `lambda_handler.py`:
 ```python
 import json
 import boto3
-from src.benchmark.runner import BenchmarkRunner
-from src.core.types import FrameworkType, UseCaseType
+from run_evaluation import UnifiedBenchmarkRunner
 
 def lambda_handler(event, context):
     """AWS Lambda handler for benchmarks."""
     
-    # Parse input
-    frameworks = [FrameworkType(f) for f in event.get('frameworks', ['langgraph'])]
-    use_cases = [UseCaseType(u) for u in event.get('use_cases', ['movie_recommendation'])]
+    # Parse request
+    mode = event.get('mode', 'mock')
+    samples = event.get('samples', 20)
     
     # Run benchmark
-    runner = BenchmarkRunner()
-    results = runner.run_benchmark(
-        frameworks=frameworks,
-        use_cases=use_cases,
+    runner = UnifiedBenchmarkRunner(
+        mode=mode,
+        samples=samples,
         test_cases_per_use_case=event.get('test_cases', 5),
         parallel=False  # Lambda handles parallelism
     )
@@ -572,15 +570,15 @@ logging.config.dictConfig(LOGGING_CONFIG)
 ```python
 # src/scaling/distributed_runner.py
 from celery import Celery
-from src.benchmark.runner import BenchmarkRunner
+from run_evaluation import UnifiedBenchmarkRunner
 
 app = Celery('benchmarks', broker='redis://localhost:6379')
 
 @app.task
-def run_framework_benchmark(framework, use_case, test_cases):
-    """Run benchmark for single framework as Celery task."""
-    runner = BenchmarkRunner()
-    return runner.run_single_framework(framework, use_case, test_cases)
+def run_framework_benchmark(mode='mock', samples=20):
+    """Run benchmark as Celery task."""
+    runner = UnifiedBenchmarkRunner(mode=mode, samples=samples)
+    return runner.run()
 
 def run_distributed_benchmark(frameworks, use_cases):
     """Run distributed benchmark using Celery."""
