@@ -23,9 +23,9 @@ haystack-ai>=2.0.0  # Deepset Haystack (NLP/RAG pipelines)
 llama-index>=0.10.0  # Data framework for LLM apps
 dspy-ai>=2.0.0  # Stanford DSPy (declarative prompting)
 agno>=0.1.0  # Performance-optimized framework (formerly Phidata)
-bee-agent-framework>=0.0.1  # IBM enterprise agent framework
+beeai-framework>=0.0.1  # IBM enterprise agent framework
 strands-agents>=0.1.0  # AWS-native agent framework
-bedrock-agent>=0.1.0  # AWS Bedrock agent runtime
+bedrock-agentcore>=0.1.0  # AWS Bedrock agent runtime
 smolagents>=0.1.0  # HuggingFace minimal agents (1k LOC)
 atomic-agents>=1.0.0  # Modular composable agents
 

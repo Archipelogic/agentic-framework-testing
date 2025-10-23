@@ -710,10 +710,10 @@ class BeeAIAdapter(FrameworkAdapter):
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         try:
-            import bee_agent_framework  # Real package name
-            self.bee = bee_agent_framework
+            import beeai_framework  # Real package name
+            self.bee = beeai_framework
         except ImportError:
-            logger.warning("bee-agent-framework not installed, using simulated mode")
+            logger.warning("beeai-framework not installed, using simulated mode")
             self.bee = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
@@ -834,10 +834,10 @@ class BedrockAgentCoreAdapter(FrameworkAdapter):
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
         try:
-            import bedrock_agent  # Real package name
-            self.bedrock = bedrock_agent
+            import bedrock_agentcore  # Real package name
+            self.bedrock = bedrock_agentcore
         except ImportError:
-            logger.warning("bedrock-agent not installed, using simulated mode")
+            logger.warning("bedrock-agentcore not installed, using simulated mode")
             self.bedrock = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
