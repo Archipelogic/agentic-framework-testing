@@ -84,8 +84,7 @@ python3 -m src.cli benchmark --config config/production.yaml --parallel
 ### Standard Installation
 
 ```bash
-# 1. Clone repository
-git clone <repository-url>
+# 1. Navigate to project directory
 cd agentic-framework-testing
 
 # 2. Create virtual environment
@@ -233,8 +232,7 @@ ssh -i your-key.pem ec2-user@instance-ip
 sudo yum update -y
 sudo yum install -y python3 python3-pip git
 
-# 4. Clone and setup
-git clone <repository-url>
+# 4. Setup
 cd agentic-framework-testing
 pip3 install -r requirements.txt
 

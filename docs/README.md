@@ -5,8 +5,7 @@
 This comprehensive testing platform enables standardized evaluation and comparison of 13+ agentic AI frameworks across multiple real-world use cases.
 
 ```bash
-# Clone the repository
-git clone https://github.com/your-org/agentic-framework-testing
+# Navigate to the project directory
 cd agentic-framework-testing
 
 # Setup and run your first evaluation
@@ -59,7 +58,7 @@ cd agentic-framework-testing
 
 ### Across 5 Real-World Use Cases
 1. **Movie Recommendation** - Personalized recommendations
-2. **GitHub Issue Triage** - Issue classification and routing
+2. **Issue Triage** - Issue classification and routing
 3. **Recipe Generation** - Creative recipe creation
 4. **Research Summary** - Academic paper analysis
 5. **Email Automation** - Smart email handling
@@ -127,11 +126,6 @@ We welcome contributions! See [Contributing Guide](contributing.md) for:
 - Improving metrics
 - Fixing bugs
 - Writing documentation
-
-## 📝 License
-
-MIT License - See the main repository LICENSE file.
-- **Contributing**: See [Contributing Guide](./contributing.md)
 
 ---
 

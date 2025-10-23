@@ -550,11 +550,10 @@ for var in env_vars:
 
 #### Support Resources
 
-1. **GitHub Issues**: Report bugs with diagnostic information
-2. **Discord/Slack**: Community support channels
-3. **Documentation**: Check docs folder for guides
-4. **Logs**: Always include relevant log snippets
-5. **Minimal Reproduction**: Provide code to reproduce issue
+1. **Bug Reports**: Submit with diagnostic information
+2. **Documentation**: Check docs folder for guides
+3. **Logs**: Always include relevant log snippets
+4. **Minimal Reproduction**: Provide code to reproduce issue
 
 ## Next Steps
 

@@ -11,7 +11,7 @@ This testing harness provides **systematic, data-driven comparison** of agentic 
 ### ✨ Key Features
 
 - **13 Frameworks** - LangGraph, CrewAI, AutoGen, Pydantic AI, Haystack, LlamaIndex, DSPy, and more
-- **5 Use Cases** - Movie recommendations, GitHub triage, recipe generation, research summary, email automation  
+- **5 Use Cases** - Movie recommendations, issue triage, recipe generation, research summary, email automation  
 - **22 Metrics** - Capabilities (8), Enhanced metrics (7), Resources (3), Performance (4)
 - **Beautiful Reports** - Interactive HTML dashboards with sortable tables and visualizations
 - **Mock & Live Modes** - Test without API keys using mock data, or with real APIs
@@ -48,8 +48,7 @@ agentic-framework-testing/
 ### Setup and Run
 
 ```bash
-# Clone and enter directory
-git clone https://github.com/Archipelogic/agentic-framework-testing.git
+# Navigate to project directory
 cd agentic-framework-testing
 
 # One-time setup

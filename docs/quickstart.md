@@ -4,11 +4,10 @@
 
 Get up and running with the Agentic AI Framework Testing Harness in just 5 minutes!
 
-## Step 1: Clone and Setup (2 minutes)
+## Step 1: Setup (2 minutes)
 
 ```bash
-# Clone the repository
-git clone <repository-url>
+# Navigate to project directory
 cd agentic-framework-testing
 
 # Run automated setup (creates venv, installs deps, generates data)

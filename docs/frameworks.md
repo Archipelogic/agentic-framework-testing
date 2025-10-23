@@ -112,7 +112,7 @@ pip install farm-haystack[elasticsearch]  # For Elasticsearch
 **RAG Features**:
 - Multiple index types (Vector, List, Tree, Keyword, Knowledge Graph)
 - Advanced query engines (SubQuestion, Router, SQL, Multi-Step)
-- Document connectors (PDFs, Notion, Slack, Discord, etc.)
+- Document connectors (PDFs, Notion, Slack, databases, etc.)
 - Hybrid search capabilities
 - Agent-based retrieval with tool use
 

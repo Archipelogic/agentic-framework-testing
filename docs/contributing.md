@@ -15,39 +15,29 @@ We welcome contributions to the Agentic AI Framework Testing Harness! This guide
 
 ## Getting Started
 
-### Fork and Clone
+### Setting Up Development Environment
 
-1. Fork the repository on GitHub
-2. Clone your fork locally:
+1. Navigate to the project directory:
 
 ```bash
-git clone https://github.com/your-username/agentic-framework-testing.git
 cd agentic-framework-testing
 ```
 
-3. Add upstream remote:
-
-```bash
-git remote add upstream https://github.com/original/agentic-framework-testing.git
-```
-
-### Development Environment
-
-1. Create a virtual environment:
+2. Create a virtual environment:
 
 ```bash
 python3 -m venv venv
 source venv/bin/activate  # On Windows: venv\Scripts\activate
 ```
 
-2. Install in development mode:
+3. Install in development mode:
 
 ```bash
 pip install -e .
 pip install -r requirements-dev.txt
 ```
 
-3. Install pre-commit hooks:
+4. Install pre-commit hooks:
 
 ```bash
 pre-commit install
@@ -564,48 +554,9 @@ We follow the [Contributor Covenant Code of Conduct](https://www.contributor-cov
 
 ### Getting Help
 
-- **Discord**: Join our Discord server
-- **GitHub Issues**: For bug reports and feature requests
-- **GitHub Discussions**: For questions and discussions
-- **Email**: maintainers@example.com
-
-### Recognition
-
-Contributors will be recognized in:
-- CONTRIBUTORS.md file
-- Release notes
-- Project documentation
-
-## Release Process
-
-### Version Numbering
-
-We use Semantic Versioning (SemVer):
-- MAJOR: Breaking changes
-- MINOR: New features (backward compatible)
-- PATCH: Bug fixes
-
-### Release Checklist
-
-1. Update version in `setup.py`
-2. Update CHANGELOG.md
-3. Run full test suite
-4. Build and test package
-5. Tag release
-6. Create GitHub release
-7. Publish to PyPI
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the project's license.
-
-## Thank You!
-
-Thank you for contributing to the Agentic AI Framework Testing Harness! Your contributions help make this tool better for everyone.
+- **Documentation**: Check docs folder for guides
+- **Issue Tracker**: Submit bug reports with diagnostic information
 
 ## Quick Links
 
-- [Issue Tracker](https://github.com/project/issues)
-- [Project Board](https://github.com/project/projects)
-- [Discord Server](https://discord.gg/example)
 - [Documentation](./README.md)

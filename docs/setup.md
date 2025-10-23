@@ -23,14 +23,7 @@
 
 ## Installation
 
-### 1. Clone the Repository
-
-```bash
-git clone https://github.com/Archipelogic/agentic-framework-testing.git
-cd agentic-framework-testing
-```
-
-### 2. Automated Setup (Recommended)
+### 1. Automated Setup (Recommended)
 
 The easiest way to set up the project is using the unified runner script:
 
@@ -39,7 +32,7 @@ The easiest way to set up the project is using the unified runner script:
 ./run.sh setup
 ```
 
-### 3. Manual Setup (Alternative)
+### 2. Manual Setup (Alternative)
 
 If you prefer manual setup:
 
@@ -55,7 +48,7 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### 4. Framework Support
+### 3. Framework Support
 
 All 13 frameworks are supported through mock adapters for testing:
 - **Graph-Based**: LangGraph, Haystack
@@ -65,7 +58,7 @@ All 13 frameworks are supported through mock adapters for testing:
 - **Cloud-Native**: AWS Bedrock AgentCore, Strands
 - **RAG-Focused**: LlamaIndex
 
-Note: Most frameworks use mock adapters. Real framework packages can be installed if available on PyPI.
+Note: Most frameworks use mock adapters. Real framework packages can be installed if available.
 
 ## Environment Setup
 
