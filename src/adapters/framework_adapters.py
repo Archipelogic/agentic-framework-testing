@@ -86,6 +86,12 @@ class LangGraphAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import langgraph
+            self.langgraph = langgraph
+        except ImportError:
+            logger.warning("langgraph not installed, using simulated mode")
+            self.langgraph = None
         self.config = config or {}
         self.model_name = self.config.get('model', 'gpt-4o-mini')
         
@@ -230,7 +236,14 @@ class CrewAIAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import crewai
+            self.crewai = crewai
+        except ImportError:
+            logger.warning("crewai not installed, using simulated mode")
+            self.crewai = None
         self.config = config or {}
+        self.generator = TrajectoryGenerator()
         self.model_name = self.config.get('model', 'gpt-4o-mini')
         
     def get_framework_name(self) -> FrameworkType:
@@ -311,6 +324,12 @@ class AutoGenAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import pyautogen  # Correct package name for AutoGen
+            self.autogen = pyautogen
+        except ImportError:
+            logger.warning("pyautogen not installed, using simulated mode")
+            self.autogen = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'gpt-4')
@@ -368,6 +387,12 @@ class PydanticAIAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import pydantic_ai  # Package uses underscore
+            self.pydantic_ai = pydantic_ai
+        except ImportError:
+            logger.warning("pydantic-ai not installed, using simulated mode")
+            self.pydantic_ai = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'gpt-4')
@@ -424,6 +449,12 @@ class HaystackAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import haystack  # Main haystack package
+            self.haystack = haystack
+        except ImportError:
+            logger.warning("haystack-ai not installed, using simulated mode")
+            self.haystack = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'gpt-4')
@@ -485,6 +516,12 @@ class LlamaIndexAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import llama_index  # Main llama-index package
+            self.llama_index = llama_index
+        except ImportError:
+            logger.warning("llama-index not installed, using simulated mode")
+            self.llama_index = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'gpt-4')
@@ -541,6 +578,12 @@ class DSPyAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import dspy  # Main dspy package
+            self.dspy = dspy
+        except ImportError:
+            logger.warning("dspy not installed, using simulated mode")
+            self.dspy = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'gpt-3.5-turbo')  # DSPy optimized for efficiency
@@ -604,6 +647,12 @@ class AgnoAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import agno  # Real package name (formerly phidata)
+            self.agno = agno
+        except ImportError:
+            logger.warning("agno not installed, using simulated mode")
+            self.agno = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'gpt-4')
@@ -660,6 +709,12 @@ class BeeAIAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import bee_agent_framework  # Real package name
+            self.bee = bee_agent_framework
+        except ImportError:
+            logger.warning("bee-agent-framework not installed, using simulated mode")
+            self.bee = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'gpt-4')
@@ -716,6 +771,12 @@ class StrandsAgentsAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import strands_agents  # Real package name
+            self.strands = strands_agents
+        except ImportError:
+            logger.warning("strands-agents not installed, using simulated mode")
+            self.strands = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'claude-2')  # AWS/Anthropic
@@ -772,6 +833,12 @@ class BedrockAgentCoreAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import bedrock_agent  # Real package name
+            self.bedrock = bedrock_agent
+        except ImportError:
+            logger.warning("bedrock-agent not installed, using simulated mode")
+            self.bedrock = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'claude-2')  # AWS default
@@ -828,6 +895,12 @@ class SmolagentsAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import smolagents  # Real package name
+            self.smolagents = smolagents
+        except ImportError:
+            logger.warning("smolagents not installed, using simulated mode")
+            self.smolagents = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'gpt-3.5-turbo')  # Minimal = cheaper model
@@ -891,6 +964,12 @@ class AtomicAgentsAdapter(FrameworkAdapter):
     """
     
     def __init__(self, config: Optional[Dict[str, Any]] = None):
+        try:
+            import atomic_agents  # Real package name
+            self.atomic = atomic_agents
+        except ImportError:
+            logger.warning("atomic-agents not installed, using simulated mode")
+            self.atomic = None
         self.config = config or {}
         self.generator = TrajectoryGenerator()
         self.model_name = config.get('model', 'gpt-4')

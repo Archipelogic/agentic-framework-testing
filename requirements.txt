@@ -1,3 +1,6 @@
+# Python 3.8+ required (3.10+ recommended for best performance)
+# All packages verified for Python 3.8+ compatibility
+
 # Core dependencies
 pandas>=2.0.0
 numpy>=1.24.0
@@ -11,20 +14,30 @@ tabulate>=0.9.0
 jinja2>=3.1.0
 tqdm>=4.66.0
 
-# Framework dependencies
-langgraph>=0.1.0
-crewai>=0.28.0
-autogen>=0.2.0
-pydantic-ai>=0.0.9
-haystack-ai>=2.0.0
-llama-index>=0.10.0
-dspy-ai>=2.0.0
-agno>=0.1.0
-beeai>=0.1.0
-strands>=0.1.0
-bedrock-agentcore>=0.1.0
-smolagents>=0.1.0
-atomic-agents>=0.1.0
+# Framework dependencies (Python 3.8+ compatible)
+langgraph>=0.1.0  # LangChain graph orchestration
+crewai>=0.28.0  # Role-based multi-agent teams
+pyautogen>=0.2.0  # Microsoft AutoGen (conversational agents)
+pydantic-ai>=0.0.9  # Type-safe AI agents
+haystack-ai>=2.0.0  # Deepset Haystack (NLP/RAG pipelines)
+llama-index>=0.10.0  # Data framework for LLM apps
+dspy-ai>=2.0.0  # Stanford DSPy (declarative prompting)
+agno>=0.1.0  # Performance-optimized framework (formerly Phidata)
+bee-agent-framework>=0.0.1  # IBM enterprise agent framework
+strands-agents>=0.1.0  # AWS-native agent framework
+bedrock-agent>=0.1.0  # AWS Bedrock agent runtime
+smolagents>=0.1.0  # HuggingFace minimal agents (1k LOC)
+atomic-agents>=1.0.0  # Modular composable agents
+
+# Supporting libraries (required by various frameworks)
+langchain>=0.1.0  # Core LangChain library
+langchain-community>=0.0.10  # Community integrations
+transformers>=4.30.0  # Hugging Face transformers (for NLP)
+boto3>=1.26.0  # AWS SDK (for Bedrock)
+sentence-transformers>=2.2.0  # Embedding models
+instructor>=0.3.0  # Structured output (for Atomic Agents)
+networkx>=3.0  # Graph algorithms
+huggingface-hub>=0.19.0  # HF model hub access
 
 # LLM Provider dependencies
 openai>=1.3.0

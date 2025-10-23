@@ -88,20 +88,21 @@ setup_environment() {
     
     # Upgrade pip
     echo -e "${YELLOW}Upgrading pip...${NC}"
-    pip install --upgrade pip --quiet
+    pip install --upgrade pip --progress-bar on
     echo -e "${GREEN}✅ Pip upgraded${NC}\n"
     
     # Install dependencies
     echo -e "${YELLOW}Installing dependencies...${NC}"
     if [ -f "requirements.txt" ]; then
-        pip install -r requirements.txt --quiet
+        # Show progress for each package
+        pip install -r requirements.txt --progress-bar on
         echo -e "${GREEN}✅ Dependencies installed${NC}\n"
     fi
     
     # Install package in development mode
     if [ -f "setup.py" ]; then
         echo -e "${YELLOW}Installing package in development mode...${NC}"
-        pip install -e . --quiet
+        pip install -e . --progress-bar on
         echo -e "${GREEN}✅ Package installed${NC}\n"
     fi
     
